@@ -1,12 +1,12 @@
-use std::i32;
-
 use bevy::{color::palettes::css::*, prelude::*};
+use std::i32;
 
 pub struct SnowflakePlugin;
 
 impl Plugin for SnowflakePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (setup, setup_ui))
+        app.add_plugins(DefaultPlugins)
+            .add_systems(Startup, (setup, setup_ui))
             .add_systems(Update, (draw, update_ui));
     }
 }
