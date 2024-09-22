@@ -1,4 +1,4 @@
-#![warn(missing_docs)]
+// #![warn(missing_docs)]
 #![doc = include_str!("../README.md")]
 
 use std::f32::consts::TAU;

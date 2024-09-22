@@ -15,7 +15,7 @@ impl Plugin for RtsCameraControlsPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(CursorRayPlugin).add_systems(
             Update,
-            (zoom, pan, grab_pan, rotate).before(RtsCameraSystemSet),
+            (zoom, pan, grab_pan, rotate_or_zoom).before(RtsCameraSystemSet),
         );
     }
 }
@@ -110,6 +110,20 @@ impl Default for RtsCameraControls {
             pan_speed: 15.0,
             zoom_sensitivity: 1.0,
             enabled: true,
+        }
+    }
+}
+
+impl RtsCameraControls {
+    pub fn my_controls() -> Self {
+        RtsCameraControls {
+            key_up: KeyCode::KeyW,
+            key_down: KeyCode::KeyS,
+            key_left: KeyCode::KeyA,
+            key_right: KeyCode::KeyD,
+            button_rotate: MouseButton::Right,
+            button_drag: Some(MouseButton::Middle),
+            ..RtsCameraControls::default()
         }
     }
 }
@@ -280,7 +294,7 @@ pub fn grab_pan(
     }
 }
 
-pub fn rotate(
+pub fn rotate_or_zoom(
     mut cam_q: Query<(&mut RtsCamera, &RtsCameraControls)>,
     mouse_input: Res<ButtonInput<MouseButton>>,
     keys: Res<ButtonInput<KeyCode>>,
@@ -302,6 +316,18 @@ pub fn rotate(
                 // will be one half rotation (180 degrees)
                 let delta_x = mouse_delta.x / primary_window.width() * PI;
                 cam.target_focus.rotate_local_y(-delta_x);
+
+                //zoom
+                let delta_y = mouse_delta.y;
+                let is_delta_x_small = (-2.0..2.0).contains(&delta_x);
+                let is_delta_y_small = (-6.0..6.0).contains(&delta_y);
+                if is_delta_x_small && !is_delta_y_small {
+                    let zoom_amount = -delta_y;
+                    let new_zoom = (cam.target_zoom
+                        + zoom_amount * 0.5 * controller.zoom_sensitivity)
+                        .clamp(0.0, 1.0);
+                    cam.target_zoom = new_zoom;
+                }
             } else {
                 let left = if keys.pressed(controller.key_rotate_left) {
                     1.0
