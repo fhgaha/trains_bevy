@@ -324,7 +324,7 @@ pub fn rotate_or_zoom(
                 if is_delta_x_small && !is_delta_y_small {
                     let zoom_amount = -delta_y;
                     let new_zoom = (cam.target_zoom
-                        + zoom_amount * 0.5 * controller.zoom_sensitivity)
+                        + zoom_amount * 0.005 * controller.zoom_sensitivity)
                         .clamp(0.0, 1.0);
                     cam.target_zoom = new_zoom;
                 }
