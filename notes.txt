@@ -1,0 +1,5 @@
+
+bevy_terrain - huge terrain loader 
+	https://github.com/kurtkuehnert/terrain_renderer?tab=readme-ov-file
+	https://github.com/kurtkuehnert/bevy_terrain
+
