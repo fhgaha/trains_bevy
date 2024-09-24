@@ -5,8 +5,11 @@ edition = "2021"
 
 [dependencies]
 bevy = { version = "0.14.1", features = ["dynamic_linking"] }
+bevy_obj = "0.14.0"
+bevy_rapier3d = "0.27.0"
 # bevy_rts_camera = "0.8.1"
-bevy_rts_camera = { path = "./bevy_rts_camera" }
+bevy_rts_camera = { path = "./crates/bevy_rts_camera" }
+bevy_mod_raycast = { path = "./crates/bevy_mod_raycast" }
 rand = "0.8.5"
 rand_chacha = "0.3.1"
 

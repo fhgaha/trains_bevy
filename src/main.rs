@@ -1,13 +1,14 @@
+mod examples;
 mod fps;
 mod trains_plugin;
-mod examples;
 
 use bevy::prelude::*;
+use bevy_mod_raycast::cursor::CursorRayPlugin;
 
 fn main() {
     App::new()
         .add_plugins((
-            DefaultPlugins,
+            DefaultPlugins.set(bevy_mod_raycast::low_latency_window_plugin()),
             trains_plugin::TrainsPlugin,
             fps::FpsPlugin,
             // examples::ecs_example_1::EcsExample1
